@@ -1,0 +1,33 @@
+{
+    "creatingLibrary": {
+        "name": "MediaInfoLib",
+        "version": "23.03",
+        "url": "https://mediaarea.net/MediaInfo"
+    },
+    "media": {
+        "@ref": "WechatIMG30.jpg",
+        "track": [
+            {
+                "@type": "General",
+                "ImageCount": "1",
+                "FileExtension": "jpg",
+                "Format": "JPEG",
+                "FileSize": "375472",
+                "StreamSize": "0",
+                "File_Modified_Date": "2023-10-09 08:10:40 UTC",
+                "File_Modified_Date_Local": "2023-10-09 16:10:40"
+            },
+            {
+                "@type": "Image",
+                "Format": "JPEG",
+                "Width": "2160",
+                "Height": "2880",
+                "ColorSpace": "YUV",
+                "ChromaSubsampling": "4:2:0",
+                "BitDepth": "8",
+                "Compression_Mode": "Lossy",
+                "StreamSize": "375472"
+            }
+        ]
+    }
+}

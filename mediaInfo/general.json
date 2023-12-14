@@ -1,0 +1,21 @@
+{
+    "creatingLibrary": {
+        "name": "MediaInfoLib",
+        "version": "23.03",
+        "url": "https://mediaarea.net/MediaInfo"
+    },
+    "media": {
+        "@ref": "App_Cleaner_8_2_3_TNT.dmg",
+        "track": [
+            {
+                "@type": "General",
+                "FileExtension": "dmg",
+                "FileSize": "25705094",
+                "StreamSize": "25705094",
+                "File_Modified_Date": "2023-10-02 07:26:41 UTC",
+                "File_Modified_Date_Local": "2023-10-02 15:26:41"
+            }
+        ]
+    }
+}
+

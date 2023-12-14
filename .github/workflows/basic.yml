@@ -1,0 +1,44 @@
+# This workflow will build a golang project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-go
+
+name: go
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.21'
+      - name: root
+        run: pwd
+      - name: ls1
+        run: ls -R /home/runner/work/processAll
+      - name: Save Build
+        run: mkdir -p /home/runner/work/processAll/exec
+      - name: Build for linux/amd64
+        run: CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -o /home/runner/work/processAll/exec/process4LinuxAmd64 /home/runner/work/processAll/processAll/main.go
+      - name: Build for linux/arm64
+        run: CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -v -o /home/runner/work/processAll/exec/process4LinuxAmd64 /home/runner/work/processAll/processAll/main.go
+      - name: Build for windows/amd64
+        run: CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -v -o /home/runner/work/processAll/exec/process4Win64.exe /home/runner/work/processAll/processAll/main.go
+      - name: Build for darwin/amd64
+        run: CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -v -o /home/runner/work/processAll/exec/process4Mac /home/runner/work/processAll/processAll/main.go
+      - name: Build for darwin/arm64
+        run: CGO_ENABLED=0 GOOS=darwin GOARCH=arm64 go build -v -o /home/runner/work/processAll/exec/process4M1 /home/runner/work/processAll/processAll/main.go
+      - name: Build for android/arm64
+        run: CGO_ENABLED=0 GOOS=android GOARCH=arm64 go build -v -o /home/runner/work/processAll/exec/process4android /home/runner/work/processAll/processAll/main.go
+      - name: show build file
+        run: ls -alhtSF /home/runner/work/processAll/exec
+#      - name: Test
+#        run: go test -v ./...
