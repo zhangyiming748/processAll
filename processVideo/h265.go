@@ -71,28 +71,6 @@ func ProcessVideo2H265(in GetFileInfo.BasicInfo, threads string) {
 	mp4 := strings.Replace(out, in.PurgeExt, "mp4", -1)
 	slog.Debug("调试", slog.String("输入文件", in.FullPath), slog.String("输出文件", mp4))
 	cmd := exec.Command("ffmpeg", "-threads", threads, "-i", in.FullPath, "-c:v", "libx265", "-c:a", "aac", "-ac", "1", "-tag:v", "hvc1", "-map_chapters", "-1", "-threads", threads, mp4)
-	// info := GetFileInfo.GetVideoFileInfo(in.FullPath)
-
-	//	if fmt.Sprintf("%v", cpuid.CPU.VendorID) == "Intel" {
-	//		bitRate, err := GetFileInfo.GetBitRate(in.FullPath)
-	//		slog.Debug("bitrate in h265", slog.String("bitrate", bitRate))
-	//		if err != nil {
-	//			goto AGAIN
-	//		} else {
-	//			b := strings.Join([]string{bitRate, "k"}, "")
-	//			slog.Debug("获取的比特率", slog.String("bitrate", b))
-	//			if b == "" || b == "0" || b == "k" {
-	//				slog.Warn("获取比特率失败", slog.String("bitrate", b))
-	//				goto AGAIN
-	//			} else {
-	//				//b := strings.Join([]string{mi.VideoBitRate, "k"}, "")
-	//				//ffmpeg -i in.mp4 -c:v hevc_qsv -c:a aac -ac 1 -b:v 100k,
-	//				cmd = exec.Command("ffmpeg", "-threads", threads, "-i", in.FullPath, "-c:v", "hevc_qsv", "-b:v", b, "-c:a", "aac", "-ac", "1", "-tag:v", "hvc1", "-map_chapters", "-1", "-threads", threads, mp4)
-	//				slog.Info("检测到Intel系统", slog.String("命令改变为", fmt.Sprint(cmd)))
-	//			}
-	//		}
-	//	}
-	//AGAIN:
 	bitRate, _ := GetFileInfo.GetBitRate(in.FullPath)
 	slog.Debug("bitrate in h265", slog.String("bitrate", bitRate))
 
