@@ -11,6 +11,7 @@ import (
 	"processAll/replace"
 	"processAll/util"
 	"regexp"
+	"runtime"
 	"strings"
 	"time"
 )
@@ -75,8 +76,7 @@ func Merge(rootPath string) {
 			slog.Info("2", slog.String("2", sec))
 			entry := strings.Join([]string{sec, "entry.json"}, string(os.PathSeparator))
 			name := getName(entry)
-			name = replace.ForFileName(name)
-			name = CutName(name)
+			//name = CutName(name)
 			slog.Info("entry", slog.String("获取到的文件名", name))
 			thirds := getall(sec)
 			for _, third := range thirds {
@@ -95,7 +95,7 @@ func Merge(rootPath string) {
 					middle := strings.Join([]string{perfix, time.Now().Format("20060102")}, "-")
 					fname = strings.Join([]string{middle, "mp4"}, ".")
 				}
-				slog.Info("最终名称", slog.String("文件名", fname), slog.String("视频", video), slog.String("音频", audio))
+				slog.Info("命令执行前最终名称", slog.String("文件名", fname), slog.String("视频", video), slog.String("音频", audio))
 				vInfo := GetFileInfo.GetFileInfo(video)
 				mi, ok := vInfo.MediaInfo.(mediaInfo.VideoInfo)
 				if ok {
@@ -157,27 +157,17 @@ func getName(jackson string) (name string) {
 	if err != nil {
 		return
 	}
-	if entry.PageData.DownloadSubtitle != "" {
+	if entry.PageData.Part != "" {
 		//name = strings.Join([]string{entry.Title, entry.PageData.DownloadSubtitle}, "-")
-		name = entry.PageData.DownloadSubtitle
+		name = entry.PageData.Part
 	} else {
 		name = entry.Title
 	}
 	name = replace.ForFileName(name)
+	slog.Debug("解析之后", slog.String("最终名称", name))
 	return name
 }
 
-//	func ForFileName(name string) string {
-//		nStr := ""
-//		for _, v := range name {
-//			if Effective(string(v)) {
-//				// fmt.Printf("%d\t有效%v\n", i, string(v))
-//				nStr = strings.Join([]string{nStr, string(v)}, "")
-//			}
-//		}
-//		slog.Debug("正则表达式匹配数字字母汉字", slog.String("文件名", nStr))
-//		return nStr
-//	}
 func Effective(s string) bool {
 	num := regexp.MustCompile(`\d`)          // 匹配任意一个数字
 	letter := regexp.MustCompile(`[a-zA-Z]`) // 匹配任意一个字母
@@ -220,15 +210,31 @@ func isFileExist(fp string) bool {
 */
 func CutName(before string) (after string) {
 	for i, char := range before {
-		slog.Debug(fmt.Sprintf("第%d个字符:%v\n", i+1, string(char)))
+		slog.Debug(fmt.Sprintf("第%d个字符:%v", i+1, string(char)))
 		if i >= 124 {
 			slog.Debug("截取124之前的完整字符")
 			break
 		} else {
-			before = strings.Join([]string{before, string(char)}, "")
+			after = strings.Join([]string{after, string(char)}, "")
 		}
 	}
-	slog.Debug(fmt.Sprintf("截取的完整字符:%before\n", after))
+	slog.Debug(fmt.Sprintf("截取的完整字符:%vbefore", after))
 	slog.Debug("截取后", slog.String("字符串", after))
 	return after
+}
+func kindesOfPrefix() string {
+	switch runtime.GOOS {
+	case "linux":
+		if uname, _ := exec.Command("uname", "-a").CombinedOutput(); strings.Contains(string(uname), "microsoft") {
+			return "/mnt/c/Users/zen/Videos"
+		}
+	case "windows":
+		return ""
+	case "darwin":
+	case "android":
+		return "/sdcard/Movies"
+	default:
+		os.Exit(-1)
+	}
+	return ""
 }
