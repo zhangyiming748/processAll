@@ -9,7 +9,6 @@ import (
 	"path/filepath"
 	"processAll/GetAllFolder"
 	"processAll/mediaInfo"
-	"processAll/model"
 	"strings"
 	"sync"
 )
@@ -175,12 +174,5 @@ func GetAllFiles(dir string) (names []string) {
 		}
 		names = append(names, file.Name())
 	}
-	var cs []*model.Custom
-	for _, name := range names {
-		c := new(model.Custom)
-		c.FileName = name
-		cs = append(cs, c)
-	}
-	go new(model.Custom).InsertAll(cs)
 	return names
 }

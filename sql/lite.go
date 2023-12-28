@@ -15,6 +15,7 @@ func SetEngine() {
 	})
 	// 迁移 schema
 	err := db.AutoMigrate(Ytdlp{})
+	err = db.AutoMigrate(Bili{})
 	if err != nil {
 		return
 	}

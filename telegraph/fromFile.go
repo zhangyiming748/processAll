@@ -5,7 +5,6 @@ import (
 	"log/slog"
 	"os"
 	"os/exec"
-	"processAll/model"
 	"processAll/soup"
 	"processAll/util"
 	"strconv"
@@ -119,14 +118,6 @@ func DownloadSrc(title string, images []string) {
 			//slog.Debug("下载命令结束", slog.String("命令返回", string(output)))
 			success++
 		}
-
-		one := model.Telegraph{
-			Name:  fname,
-			Url:   image,
-			Shell: fmt.Sprint(cmd),
-		}
-		go one.InsertOne()
-
 	}
 	slog.Info("全部下载完毕", slog.Int("共有文件", total), slog.Int("成功下载", success))
 }

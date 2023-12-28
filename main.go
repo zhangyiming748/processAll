@@ -332,7 +332,7 @@ func setLog() {
 func final() {
 	if runtime.GOOS == "darwin" {
 		slog.Info("M1重新生成预编译文件")
-		if out, err := exec.Command("zsh", "-c", "/Users/zen/git/ProcessAVI/build.sh").CombinedOutput(); err != nil {
+		if out, err := exec.Command("zsh", "-c", "build.sh").CombinedOutput(); err != nil {
 			slog.Warn("程序结束后重新编译失败")
 		} else {
 			slog.Debug("编译新版本二进制文件", slog.String("输出", string(out)))
@@ -340,13 +340,20 @@ func final() {
 	}
 	if runtime.GOOS == "linux" {
 		slog.Info("linux64重新生成预编译文件")
-		if out, err := exec.Command("bash", "-c", "/home/zen/git/ProcessAVI/build.sh").CombinedOutput(); err != nil {
+		if out, err := exec.Command("bash", "-c", "build.sh").CombinedOutput(); err != nil {
 			slog.Warn("程序结束后重新编译失败")
 		} else {
 			slog.Debug("编译新版本二进制文件", slog.String("输出", string(out)))
 		}
 	}
-
+	if runtime.GOOS == "android" {
+		slog.Info("android重新生成预编译文件")
+		if out, err := exec.Command("bash", "-c", "build.sh").CombinedOutput(); err != nil {
+			slog.Warn("程序结束后重新编译失败")
+		} else {
+			slog.Debug("编译新版本二进制文件", slog.String("输出", string(out)))
+		}
+	}
 }
 
 /*

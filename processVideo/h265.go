@@ -8,7 +8,6 @@ import (
 	"processAll/GetAllFolder"
 	"processAll/GetFileInfo"
 	"processAll/mediaInfo"
-	"processAll/model"
 	"processAll/replace"
 	"processAll/util"
 	"runtime"
@@ -102,16 +101,7 @@ func ProcessVideo2H265(in GetFileInfo.BasicInfo, threads string) {
 	if s_size, d_size, diff, err := util.GetDiffFileSize(in.FullPath, mp4); err != nil {
 		slog.Warn("文件优化大小计算出错")
 	} else {
-		save := new(model.Save)
-		save.SrcName = in.FullPath
-		save.DstName = mp4
-		save.SrcSize = s_size
-		save.DstSize = d_size
-		save.Size = diff
-		_, err := save.InsertOne()
-		if err != nil {
-			fmt.Println("节省的空间 记录插入失败")
-		}
+		fmt.Println(s_size, d_size, diff)
 	}
 	if err == nil {
 		if err = os.RemoveAll(in.FullPath); err != nil {
@@ -119,14 +109,6 @@ func ProcessVideo2H265(in GetFileInfo.BasicInfo, threads string) {
 		} else {
 			slog.Debug("删除成功", slog.Any("源文件", in.FullName))
 		}
-	}
-	s := new(model.Save)
-	all, err := s.SumSaveAll()
-	if err != nil {
-		return
-	} else {
-		//fmt.Printf("节省的空间:%v GB\n", all)
-		slog.Info("转码总共节省的空间", slog.String("GB", all))
 	}
 	slog.Debug("本次转码完成")
 }

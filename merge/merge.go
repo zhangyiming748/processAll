@@ -9,9 +9,10 @@ import (
 	"processAll/GetFileInfo"
 	"processAll/mediaInfo"
 	"processAll/replace"
+	"processAll/sql"
 	"processAll/util"
-	"regexp"
 	"runtime"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -84,11 +85,14 @@ func Merge(rootPath string) {
 				video := strings.Join([]string{third, "video.m4s"}, string(os.PathSeparator))
 				audio := strings.Join([]string{third, "audio.m4s"}, string(os.PathSeparator))
 				fname := strings.Join([]string{name, "mp4"}, ".")
-				if isExist("/sdcard/Movies") {
-					os.Mkdir("/sdcard/Movies/bili", 0777)
-					fname = strings.Join([]string{"/sdcard/Movies/bili", fname}, string(os.PathSeparator))
+				prefix := util.GetVal("merge", "prefix")
+				if isExist(prefix) {
+					aim := strings.Join([]string{prefix, "bili"}, string(os.PathSeparator))
+					os.Mkdir(aim, 0777)
+					fname = strings.Join([]string{aim, fname}, string(os.PathSeparator))
 				} else {
-					fname = strings.Join([]string{"/sdcard/Movies/bili", fname}, string(os.PathSeparator))
+					slog.Warn("目标文件夹不存在,退出")
+					os.Exit(-1)
 				}
 				if isFileExist(fname) {
 					perfix := strings.Replace(fname, ".mp4", "", 1)
@@ -113,12 +117,12 @@ func Merge(rootPath string) {
 					slog.Warn("哔哩哔哩合成出错", slog.Any("错误原文", err), slog.Any("命令原文", fmt.Sprint(cmd)))
 					continue
 				}
-				if err = os.RemoveAll(sec); err != nil {
-					slog.Debug("删除失败", slog.String("目录名", sec), slog.Any("错误原文", err))
-					return
-				} else {
-					slog.Debug("删除成功", slog.String("目录名", sec))
-				}
+				//if err = os.RemoveAll(sec); err != nil {
+				//	slog.Debug("删除失败", slog.String("目录名", sec), slog.Any("错误原文", err))
+				//	return
+				//} else {
+				//	slog.Debug("删除成功", slog.String("目录名", sec))
+				//}
 			}
 		}
 	}
@@ -154,6 +158,17 @@ func getName(jackson string) (name string) {
 		return
 	}
 	err = json.Unmarshal(file, &entry)
+
+	record := new(sql.Bili)
+	record.Title = entry.Title
+	record.Cover = strings.Replace(entry.Cover, "\\/", "//", -1)
+	record.CreatedAt = sql.S2T(strconv.FormatInt(entry.TimeCreateStamp, 10))
+	record.UpdatedAt = sql.S2T(strconv.FormatInt(entry.TimeUpdateStamp, 10))
+	record.Owner = entry.OwnerName
+	record.PartName = entry.PageData.Part
+	record.Original = string(file)
+	record.SetOne()
+
 	if err != nil {
 		return
 	}
@@ -161,16 +176,6 @@ func getName(jackson string) (name string) {
 	name = replace.ForFileName(name)
 	slog.Debug("解析之后拼接", slog.String("名称", name))
 	return name
-}
-
-func Effective(s string) bool {
-	num := regexp.MustCompile(`\d`)          // 匹配任意一个数字
-	letter := regexp.MustCompile(`[a-zA-Z]`) // 匹配任意一个字母
-	char := regexp.MustCompile(`[\p{Han}]`)  // 匹配任意一个汉字
-	if num.MatchString(s) || letter.MatchString(s) || char.MatchString(s) {
-		return true
-	}
-	return false
 }
 
 /*
@@ -206,9 +211,6 @@ func isFileExist(fp string) bool {
 func CutName(before string) (after string) {
 	for i, char := range before {
 		slog.Debug(fmt.Sprintf("第%d个字符:%v", i+1, string(char)))
-		if !Effective(string(char)) {
-			continue
-		}
 		if i >= 124 {
 			slog.Debug("截取124之前的完整字符")
 			break
