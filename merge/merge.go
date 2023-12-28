@@ -76,7 +76,7 @@ func Merge(rootPath string) {
 			slog.Info("2", slog.String("2", sec))
 			entry := strings.Join([]string{sec, "entry.json"}, string(os.PathSeparator))
 			name := getName(entry)
-			//name = CutName(name)
+			name = CutName(name)
 			slog.Info("entry", slog.String("获取到的文件名", name))
 			thirds := getall(sec)
 			for _, third := range thirds {
@@ -157,14 +157,9 @@ func getName(jackson string) (name string) {
 	if err != nil {
 		return
 	}
-	if entry.PageData.Part != "" {
-		//name = strings.Join([]string{entry.Title, entry.PageData.DownloadSubtitle}, "-")
-		name = entry.PageData.Part
-	} else {
-		name = entry.Title
-	}
+	name = strings.Join([]string{entry.PageData.Part, entry.Title}, "")
 	name = replace.ForFileName(name)
-	slog.Debug("解析之后", slog.String("最终名称", name))
+	slog.Debug("解析之后拼接", slog.String("名称", name))
 	return name
 }
 
@@ -211,6 +206,9 @@ func isFileExist(fp string) bool {
 func CutName(before string) (after string) {
 	for i, char := range before {
 		slog.Debug(fmt.Sprintf("第%d个字符:%v", i+1, string(char)))
+		if !Effective(string(char)) {
+			continue
+		}
 		if i >= 124 {
 			slog.Debug("截取124之前的完整字符")
 			break
@@ -218,8 +216,7 @@ func CutName(before string) (after string) {
 			after = strings.Join([]string{after, string(char)}, "")
 		}
 	}
-	slog.Debug(fmt.Sprintf("截取的完整字符:%vbefore", after))
-	slog.Debug("截取后", slog.String("字符串", after))
+	slog.Debug("截取后", slog.String("before", before), slog.String("after", after))
 	return after
 }
 func kindesOfPrefix() string {
