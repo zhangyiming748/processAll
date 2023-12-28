@@ -38,7 +38,7 @@ func LouderAudio(in GetFileInfo.BasicInfo) {
 	dst := strings.Join([]string{src, "Louder"}, "") //目标文件目录
 	os.Mkdir(dst, 0777)
 	fname := replace.ForFileName(in.PurgeName)
-	fname = strings.Join([]string{fname, "aac"}, ".")
+	fname = strings.Join([]string{fname, "ogg"}, ".")
 	out := strings.Join([]string{dst, fname}, string(os.PathSeparator))
 	slog.Debug("io", slog.String("输入文件", in.FullPath), slog.String("输出文件", out))
 	//跳过已经增大电平的文件夹
@@ -46,14 +46,13 @@ func LouderAudio(in GetFileInfo.BasicInfo) {
 		return
 	}
 	Louder(in.FullPath, out)
-
 }
 
 /*
 仅使用输入输出和增大电平
 */
 func Louder(in, out string) {
-	cmd := exec.Command("ffmpeg", "-i", in, "-filter:a", "volume=3.0", out)
+	cmd := exec.Command("ffmpeg", "-i", in, "-filter:a", "volume=3.0", "-c:a", "libvorbis", out)
 	util.ExecCommand(cmd)
 	if err := os.RemoveAll(in); err != nil {
 		slog.Warn("删除失败", slog.String("源文件", in), slog.Any("错误内容", err))

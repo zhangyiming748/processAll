@@ -74,9 +74,9 @@ func ProcessVideo2H265(in GetFileInfo.BasicInfo, threads string) {
 	slog.Debug("bitrate in h265", slog.String("bitrate", bitRate))
 	b := strings.Join([]string{bitRate, "k"}, "")
 	slog.Debug("获取的比特率", slog.String("bitrate", b))
-	cmd = exec.Command("ffmpeg", "-threads", threads, "-i", in.FullPath, "-c:v", "libx265", "-b:v", b, "-c:a", "aac", "-ac", "1", "-tag:v", "hvc1", "-map_chapters", "-1", "-threads", threads, mp4)
+	cmd = exec.Command("ffmpeg", "-threads", threads, "-i", in.FullPath, "-c:v", "libx265", "-b:v", b, "-c:a", "libvorbis", "-ac", "1", "-tag:v", "hvc1", "-map_chapters", "-1", "-threads", threads, mp4)
 	if bitRate == "" {
-		cmd = exec.Command("ffmpeg", "-threads", threads, "-i", in.FullPath, "-c:v", "libx265", "-c:a", "aac", "-ac", "1", "-tag:v", "hvc1", "-map_chapters", "-1", "-threads", threads, mp4)
+		cmd = exec.Command("ffmpeg", "-threads", threads, "-i", in.FullPath, "-c:v", "libx265", "-c:a", "libvorbis", "-ac", "1", "-tag:v", "hvc1", "-map_chapters", "-1", "-threads", threads, mp4)
 	}
 	if mi.VideoWidth > 1920 && mi.VideoHeight > 1920 {
 		slog.Warn("视频大于1080P需要使用其他程序先处理视频尺寸", slog.Any("原视频", in))

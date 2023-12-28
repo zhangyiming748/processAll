@@ -23,7 +23,7 @@ func Videos2Audio(dir, pattern, threads string) {
 	}
 }
 func Video2Audio(in GetFileInfo.BasicInfo, threads string) {
-	out := strings.Replace(in.FullPath, in.PurgeExt, "aac", 1)
+	out := strings.Replace(in.FullPath, in.PurgeExt, "ogg", 1)
 	cmd := exec.Command("ffmpeg", "-threads", threads, "-i", in.FullPath, "-vn", "-ac", "1", out)
 	slog.Info("生成的命令", slog.String("command", fmt.Sprint(cmd)))
 	if err := util.ExecCommand(cmd); err != nil {

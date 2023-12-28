@@ -42,7 +42,7 @@ func RotateVideo(in GetFileInfo.BasicInfo, direction, threads string) {
 	default:
 		return
 	}
-	cmd = exec.Command("ffmpeg", "-threads", threads, "-i", in.FullPath, "-vf", transport, "-c:v", "libx265", "-c:a", "aac", "-tag:v", "hvc1", "-threads", threads, out)
+	cmd = exec.Command("ffmpeg", "-threads", threads, "-i", in.FullPath, "-vf", transport, "-c:v", "libx265", "-c:a", "libvorbis", "-tag:v", "hvc1", "-threads", threads, out)
 	err := util.ExecCommand(cmd)
 	if err == nil {
 		if err = os.RemoveAll(in.FullPath); err != nil {
