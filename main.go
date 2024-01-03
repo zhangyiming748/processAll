@@ -181,7 +181,7 @@ func main() {
 		slog.Debug("开始提取哔哩哔哩音频进程", slog.String("根目录", root))
 		merge.ExtractAAC(root)
 	case "speedUpAudio":
-		root = util.GetVal("root", "speedUp")
+		root = util.GetVal("root", "audio")
 		pattern = util.GetVal("pattern", "audio")
 		pattern = strings.Join([]string{pattern, strings.ToUpper(pattern)}, ";")
 		speed := util.GetVal("speed", "audition")

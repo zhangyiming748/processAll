@@ -13,7 +13,7 @@ func Audio2OGG(in GetFileInfo.BasicInfo) {
 	fname := replace.ForFileName(in.PurgeName)
 	//fname=r
 	out := strings.Join([]string{in.PurgePath, fname, ".ogg"}, "")
-	cmd := exec.Command("ffmpeg", "-i", in.FullPath, out)
+	cmd := exec.Command("ffmpeg", "-i", in.FullPath, "-c:a", "libvorbis", out)
 	_ = util.ExecCommand(cmd)
 	//if err == nil {
 	//	if err = os.RemoveAll(in.FullPath); err != nil {
