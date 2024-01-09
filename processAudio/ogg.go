@@ -1,6 +1,8 @@
 package processAudio
 
 import (
+	"log/slog"
+	"os"
 	"os/exec"
 	"processAll/GetFileInfo"
 	"processAll/replace"
@@ -13,15 +15,15 @@ func Audio2OGG(in GetFileInfo.BasicInfo) {
 	fname := replace.ForFileName(in.PurgeName)
 	//fname=r
 	out := strings.Join([]string{in.PurgePath, fname, ".ogg"}, "")
-	cmd := exec.Command("ffmpeg", "-i", in.FullPath, "-c:a", "libvorbis", out)
-	_ = util.ExecCommand(cmd)
-	//if err == nil {
-	//	if err = os.RemoveAll(in.FullPath); err != nil {
-	//		slog.Warn("删除失败", slog.String("源文件", in.FullPath), slog.Any("错误", err))
-	//	} else {
-	//		slog.Debug("删除成功", slog.String("源文件", in.FullPath))
-	//	}
-	//}
+	cmd := exec.Command("ffmpeg", "-i", in.FullPath, "-ac", "1", "-c:a", "libvorbis", out)
+	err := util.ExecCommand(cmd)
+	if err == nil {
+		if err = os.RemoveAll(in.FullPath); err != nil {
+			slog.Warn("删除失败", slog.String("源文件", in.FullPath), slog.Any("错误", err))
+		} else {
+			slog.Debug("删除成功", slog.String("源文件", in.FullPath))
+		}
+	}
 }
 
 func Audios2OGG(dir, pattern string) {
