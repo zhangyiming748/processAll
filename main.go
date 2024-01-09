@@ -318,7 +318,7 @@ func setLog() {
 		}
 	}
 	file := "Process.log"
-	logf, err := os.OpenFile(file, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0770)
+	logf, err := os.OpenFile(file, os.O_RDWR|os.O_CREATE, 0770)
 	if err != nil {
 		panic(err)
 	}
