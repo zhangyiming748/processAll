@@ -51,7 +51,7 @@ func GetFileInfo(absPath string) BasicInfo {
 		PurgeName: strings.Replace(file, ext, "", 1),
 		PurgeExt:  strings.Replace(ext, ".", "", 1),
 		PurgePath: dir,
-		MD5:       GetMD5(absPath),
+		//MD5:       GetMD5(absPath),
 	}
 	// todo 测试使用文件头判断文件类型
 	//t := SelectType(strings.Replace(ext, ".", "", 1))

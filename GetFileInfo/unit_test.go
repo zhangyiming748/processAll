@@ -74,9 +74,4 @@ func TestIsNotH265(t *testing.T) {
 // go test -v -run TestGetBitRate ./
 func TestGetBitRate(t *testing.T) {
 
-	rate, err := GetBitRate("/media/zen/Disk2/video/再見我的愛人.mp4")
-	if err != nil {
-		return
-	}
-	t.Log(rate)
 }

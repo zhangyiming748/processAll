@@ -3,13 +3,10 @@ package GetFileInfo
 import (
 	"crypto/md5"
 	"encoding/hex"
-	"fmt"
 	"github.com/zhangyiming748/filetype"
 	"io"
 	"log/slog"
 	"os"
-	"os/exec"
-	"regexp"
 )
 
 /*
@@ -166,19 +163,4 @@ func SelectType(ext string) string {
 	default:
 		return "General"
 	}
-}
-
-func GetBitRate(fp string) (string, error) {
-	ff, _ := exec.Command("ffmpeg", "-i", fp).CombinedOutput()
-	re := regexp.MustCompile(`bitrate:\s*(\d+)\s*kb/s`)
-	matches := re.FindAllStringSubmatch(string(ff), -1)
-	if len(matches) > 0 {
-		str := fmt.Sprintf("比特率字段:%s\n", matches)
-		fmt.Println(str)
-		num := fmt.Sprint(matches[0][1])
-		slog.Debug(num)
-		return num, nil
-	}
-
-	return "", nil
 }
