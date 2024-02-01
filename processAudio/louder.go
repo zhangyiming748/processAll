@@ -52,7 +52,7 @@ func LouderAudio(in GetFileInfo.BasicInfo) {
 仅使用输入输出和增大电平
 */
 func Louder(in, out string) {
-	cmd := exec.Command("ffmpeg", "-i", in, "-filter:a", "volume=3.0", "-c:a", "libvorbis", out)
+	cmd := exec.Command("ffmpeg", "-i", in, "-filter:a", "volume=3.0", "-c:a", "libvorbis", "-map_metadata", "-1", out)
 	util.ExecCommand(cmd)
 	if err := os.RemoveAll(in); err != nil {
 		slog.Warn("删除失败", slog.String("源文件", in), slog.Any("错误内容", err))
