@@ -62,13 +62,13 @@ func SpeedupAudio(in GetFileInfo.BasicInfo, speed string) {
 func speedUp(in, out string, speed string) {
 	ff := audition2ffmpeg(speed)
 	atempo := strings.Join([]string{"atempo", ff}, "=")
-	cmd := exec.Command("ffmpeg", "-i", in, "-filter:a", atempo, "-vn", "-c:a", "libvorbis", "-ac", "1", "-map_metadata", "-1", out)
+	cmd := exec.Command("ffmpeg", "-i", in, "-filter:a", atempo, "-vn", "-ac", "1", "-map_metadata", "-1", out)
 	util.ExecCommand(cmd)
-	if err := os.RemoveAll(in); err != nil {
-		slog.Warn("删除失败", slog.String("源文件", in), slog.Any("错误内容", err))
-	} else {
-		slog.Debug("删除成功", slog.String("源文件", in))
-	}
+	//if err := os.RemoveAll(in); err != nil {
+	//	slog.Warn("删除失败", slog.String("源文件", in), slog.Any("错误内容", err))
+	//} else {
+	//	slog.Debug("删除成功", slog.String("源文件", in))
+	//}
 }
 
 /*
