@@ -340,8 +340,8 @@ func final() {
 	}
 	if runtime.GOOS == "linux" {
 		slog.Info("linux64重新生成预编译文件")
-		if out, err := exec.Command("bash", "-c", "build.sh").CombinedOutput(); err != nil {
-			slog.Warn("程序结束后重新编译失败")
+		if out, err := exec.Command("go", "build", "main.go").CombinedOutput(); err != nil {
+			slog.Warn("程序结束后重新编译失败", slog.String("错误原文", err.Error()))
 		} else {
 			slog.Debug("编译新版本二进制文件", slog.String("输出", string(out)))
 		}
@@ -367,4 +367,8 @@ func runNumGoroutineMonitor() {
 			fmt.Printf("协程数量->%d\n", runtime.NumGoroutine())
 		}
 	}
+}
+func getRoot() string {
+	_, filename, _, _ := runtime.Caller(0)
+	return path.Dir(filename)
 }
