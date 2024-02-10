@@ -14,7 +14,7 @@ func Audio2AAC(in GetFileInfo.BasicInfo) {
 	// 执行转换
 	fname := replace.ForFileName(in.PurgeName)
 	out := strings.Join([]string{in.PurgePath, fname, ".ogg"}, "")
-	cmd := exec.Command("ffmpeg", "-i", in.FullPath, "-c:a", "libvorbis", "-ac", "1", out)
+	cmd := exec.Command("ffmpeg", "-i", in.FullPath, "-ac", "1", out)
 	err := util.ExecCommand(cmd)
 
 	if err == nil {
