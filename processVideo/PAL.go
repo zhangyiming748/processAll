@@ -43,7 +43,7 @@ func Fix4x3(in GetFileInfo.BasicInfo, threads string) {
 	slog.Debug("新建文件夹", slog.String("全名", dst))
 	out := strings.Join([]string{dst, mp4}, string(os.PathSeparator))
 	slog.Debug("io", slog.String("源文件:", in.FullPath), slog.String("输出文件:", out))
-	var cmd *exec.Cmd = exec.Command("ffmpeg", "-i", in.FullPath, "-aspect", "4:3", "-c:v", "libx265", "-c:a", "aac", "-ac", "1", "-tag:v", "hvc1", "-threads", threads, out)
+	var cmd *exec.Cmd = exec.Command("ffmpeg", "-i", in.FullPath, "-aspect", "4:3", "-c:v", "libx265", "-ac", "1", "-tag:v", "hvc1", "-threads", threads, out)
 	err := util.ExecCommand(cmd)
 	if err == nil {
 		if err = os.Remove(in.FullPath); err != nil {

@@ -6,6 +6,7 @@ import (
 	"os"
 	"os/exec"
 	"processAll/GetFileInfo"
+	"processAll/count"
 	"processAll/mediaInfo"
 	"processAll/replace"
 	"processAll/util"
@@ -36,6 +37,14 @@ func ProcessImages(dir, pattern, threads string) {
 转换一张图片为AVIF
 */
 func ProcessImage(in GetFileInfo.BasicInfo, threads string) {
+	defer func() {
+		if err := recover(); err != nil {
+			slog.Warn("转换失败", slog.Any("错误", err))
+		} else {
+			count.AddNum()
+			slog.Debug("转换成功", slog.Any("文件", in.FullPath))
+		}
+	}()
 	mi, ok := in.MediaInfo.(mediaInfo.ImageInfo)
 	if ok {
 		slog.Debug("断言图片mediainfo结构体成功", slog.Any("MediainfoVideo结构体", mi))

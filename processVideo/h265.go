@@ -69,7 +69,7 @@ func ProcessVideo2H265(in GetFileInfo.BasicInfo, threads string) {
 	slog.Debug("", slog.String("out", out), slog.String("extName", in.PurgeExt))
 	mp4 := strings.Replace(out, in.PurgeExt, "mp4", -1)
 	slog.Debug("调试", slog.String("输入文件", in.FullPath), slog.String("输出文件", mp4))
-	cmd := exec.Command("ffmpeg", "-threads", threads, "-i", in.FullPath, "-c:v", "libx265", "-c:a", "libvorbis", "-ac", "1", "-tag:v", "hvc1", "-map_chapters", "-1", "-threads", threads, mp4)
+	cmd := exec.Command("ffmpeg", "-threads", threads, "-i", in.FullPath, "-c:v", "libx265", "-ac", "1", "-tag:v", "hvc1", "-map_chapters", "-1", "-threads", threads, mp4)
 	if mi.VideoWidth > 1920 && mi.VideoHeight > 1920 {
 		slog.Warn("视频大于1080P需要使用其他程序先处理视频尺寸", slog.Any("原视频", in))
 		ResizeVideo(in, threads)

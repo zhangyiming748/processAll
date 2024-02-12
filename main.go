@@ -12,6 +12,7 @@ import (
 	"processAll/GetAllFolder"
 	"processAll/GetFileInfo"
 	"processAll/alert"
+	"processAll/count"
 	"processAll/merge"
 	"processAll/processAudio"
 	"processAll/processImage"
@@ -257,6 +258,8 @@ func sendEmail(start, end time.Time, ss ...string) {
 	i.SetSubject(strings.Join([]string{"AllInOne", util.GetVal("main", "mission"), "任务完成"}, ":"))
 	text := strings.Join([]string{start.Format("任务开始时间 2006年01月02日 15:04:05"), end.Format("任务结束时间 2006年01月02日 15:04:05"), fmt.Sprintf("任务用时%.3f分", end.Sub(start).Minutes())}, "<br>")
 	i.SetText(text)
+	summary := strings.Join([]string{"共成功转换", fmt.Sprint(count.GetNum(), "个文件")}, "")
+	i.AppendText(summary)
 	for _, s := range ss {
 		i.AppendText(s)
 	}
