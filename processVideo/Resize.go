@@ -6,7 +6,6 @@ import (
 	"os"
 	"os/exec"
 	"processAll/GetFileInfo"
-	"processAll/alert"
 	"processAll/mediaInfo"
 	"processAll/replace"
 	"processAll/util"
@@ -52,7 +51,6 @@ func Resize(in GetFileInfo.BasicInfo, threads string, p string) {
 	defer func() {
 		if err := recover(); err != nil {
 			slog.Warn("错误", slog.String("文件信息", in.FullPath))
-			alert.Customize("failed", alert.Ava)
 		}
 	}()
 	mi, ok := in.MediaInfo.(mediaInfo.VideoInfo)

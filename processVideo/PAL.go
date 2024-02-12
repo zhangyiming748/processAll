@@ -5,7 +5,6 @@ import (
 	"os"
 	"os/exec"
 	"processAll/GetFileInfo"
-	"processAll/alert"
 	"processAll/replace"
 	"processAll/util"
 	"strings"
@@ -30,7 +29,6 @@ func Fix4x3(in GetFileInfo.BasicInfo, threads string) {
 	defer func() {
 		if err := recover(); err != nil {
 			slog.Warn("错误", slog.String("文件信息", in.FullPath))
-			alert.Customize("failed", alert.Ava)
 		}
 	}()
 
