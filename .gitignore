@@ -19,7 +19,7 @@ process4Android
 /soup/exam.txt
 /trans.db
 lines.txt
+main
 *.db
-lines.txt
 *.tar
 *.m4s
