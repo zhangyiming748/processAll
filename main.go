@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/klauspost/cpuid/v2"
+	"github.com/zhangyiming748/AVmerger/merge"
 	"io"
 	"log/slog"
 	"os"
@@ -13,7 +14,6 @@ import (
 	"processAll/GetFileInfo"
 	"processAll/alert"
 	"processAll/count"
-	"processAll/merge"
 	"processAll/processAudio"
 	"processAll/processImage"
 	"processAll/processVideo"
@@ -177,10 +177,6 @@ func main() {
 		root = util.GetVal("root", "bilibili")
 		slog.Debug("开始合并哔哩哔哩进程", slog.String("根目录", root))
 		merge.Merge(root)
-	case "extractAAC":
-		root = util.GetVal("root", "bilibili")
-		slog.Debug("开始提取哔哩哔哩音频进程", slog.String("根目录", root))
-		merge.ExtractAAC(root)
 	case "speedUpAudio":
 		root = util.GetVal("root", "audio")
 		pattern = util.GetVal("pattern", "audio")
