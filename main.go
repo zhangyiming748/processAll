@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/klauspost/cpuid/v2"
 	"github.com/zhangyiming748/AVmerger/merge"
+	"github.com/zhangyiming748/sendEmailAlert"
 	"io"
 	"log/slog"
 	"os"
@@ -12,7 +13,6 @@ import (
 	"processAll/GBK2UTF8"
 	"processAll/GetAllFolder"
 	"processAll/GetFileInfo"
-	"processAll/alert"
 	"processAll/count"
 	"processAll/processAudio"
 	"processAll/processImage"
@@ -244,13 +244,13 @@ func main() {
 程序结束后发送电子邮件通知,可选追加内容
 */
 func sendEmail(start, end time.Time, ss ...string) {
-	i := new(alert.Info)
+	i := new(sendEmailAlert.Info)
 	i.SetUsername(util.GetVal("email", "username"))
 	i.SetPassword(util.GetVal("email", "password"))
 	i.SetTo(strings.Split(util.GetVal("email", "tos"), ";"))
 	i.SetFrom(util.GetVal("email", "from"))
-	i.SetHost(alert.NetEase.SMTP)
-	i.SetPort(alert.NetEase.SMTPProt)
+	i.SetHost(sendEmailAlert.NetEase.SMTP)
+	i.SetPort(sendEmailAlert.NetEase.SMTPProt)
 	i.SetSubject(strings.Join([]string{"AllInOne", util.GetVal("main", "mission"), "任务完成"}, ":"))
 	text := strings.Join([]string{start.Format("任务开始时间 2006年01月02日 15:04:05"), end.Format("任务结束时间 2006年01月02日 15:04:05"), fmt.Sprintf("任务用时%.3f分", end.Sub(start).Minutes())}, "<br>")
 	i.SetText(text)
@@ -259,7 +259,7 @@ func sendEmail(start, end time.Time, ss ...string) {
 	for _, s := range ss {
 		i.AppendText(s)
 	}
-	alert.Send(i)
+	sendEmailAlert.Send(i)
 }
 
 /*

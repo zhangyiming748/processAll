@@ -33,6 +33,8 @@ github.com/zhangyiming748/filetype v0.0.1 h1:C7a49LHKzqiYAiw/u2lTmPU6gP6Nwb6/sSD
 github.com/zhangyiming748/filetype v0.0.1/go.mod h1:DFFw06VgsQVSriUKe95IC+HKaY4u6hCCbXJE1L1HNUk=
 github.com/zhangyiming748/mahonia v0.0.1 h1:zsk33+dSWU5D6qNpxN23gyEjIFe8x7r5IbzP2ggAKuI=
 github.com/zhangyiming748/mahonia v0.0.1/go.mod h1:GlWmGjv246VJ+x2Q4t+1tkrss7WEjJcFzqKfWrkk6j4=
+github.com/zhangyiming748/sendEmailAlert v0.0.16 h1:vmqvwVDMJFTvbObtpD85NBkEfZ5wh2i2v7crUZYhlac=
+github.com/zhangyiming748/sendEmailAlert v0.0.16/go.mod h1:h2eP0g8maG0MbG7WnT+gD6zexjj3Y6DkfobD3Z3IOdA=
 golang.org/x/net v0.21.0 h1:AQyQV4dYCvJ7vGmJyKki9+PBdyvhkSd8EIx/qb0AYv4=
 golang.org/x/net v0.21.0/go.mod h1:bIjVDfnllIU7BJ2DNgfnXvpSvtn8VRwhlsaeUTyUS44=
 golang.org/x/sys v0.5.0/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=

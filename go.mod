@@ -8,6 +8,7 @@ require (
 	github.com/zhangyiming748/AVmerger v0.0.37
 	github.com/zhangyiming748/filetype v0.0.1
 	github.com/zhangyiming748/mahonia v0.0.1
+	github.com/zhangyiming748/sendEmailAlert v0.0.16
 	golang.org/x/net v0.21.0
 	gopkg.in/gomail.v2 v2.0.0-20160411212932-81ebce5c23df
 	gorm.io/driver/sqlite v1.5.5
