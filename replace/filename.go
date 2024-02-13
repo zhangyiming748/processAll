@@ -61,6 +61,9 @@ func ForFileName(name string) string {
 	return nStr
 }
 func Effective(s string) bool {
+	if s == "-" {
+		s = " "
+	}
 	if s == " " {
 		return true
 	}
