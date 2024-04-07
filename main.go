@@ -145,6 +145,13 @@ func main() {
 		threads = util.GetVal("thread", "threads")
 		slog.Debug("开始视频处理进程", slog.String("根目录", root), slog.String("pattern", pattern), slog.String("进程数", threads))
 		processVideo.ProcessAllVideos2H265(root, pattern, threads)
+	case "vp9":
+		pattern = util.GetVal("pattern", "video")
+		pattern = strings.Join([]string{pattern, strings.ToUpper(pattern)}, ";")
+		root = util.GetVal("root", "video")
+		threads = util.GetVal("thread", "threads")
+		slog.Debug("开始视频处理进程", slog.String("根目录", root), slog.String("pattern", pattern), slog.String("进程数", threads))
+		processVideo.ProcessAllVideos2VP9(root, pattern, threads)
 	case "audio":
 		pattern = util.GetVal("pattern", "audio")
 		pattern = strings.Join([]string{pattern, strings.ToUpper(pattern)}, ";")
