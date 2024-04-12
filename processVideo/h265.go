@@ -69,7 +69,7 @@ func ProcessVideo2H265(in GetFileInfo.BasicInfo, threads string) {
 	slog.Debug("", slog.String("out", out), slog.String("extName", in.PurgeExt))
 	mp4 := strings.Replace(out, in.PurgeExt, "mp4", -1)
 	slog.Debug("调试", slog.String("输入文件", in.FullPath), slog.String("输出文件", mp4))
-	cmd := exec.Command("ffmpeg", "-threads", threads, "-i", in.FullPath, "-c:v", "libvpx-vp9", "-crf", "31", "-c:a", "libvorbis", "-ac", "1", "-tag:v", "hvc1", "-map_chapters", "-1", "-threads", threads, mp4)
+	cmd := exec.Command("ffmpeg", "-threads", threads, "-i", in.FullPath, "-c:v", "libx265", "-crf", "22", "-c:a", "libvorbis", "-ac", "1", "-tag:v", "hvc1", "-map_chapters", "-1", "-threads", threads, mp4)
 	if mi.VideoWidth > 1920 && mi.VideoHeight > 1920 {
 		slog.Warn("视频大于1080P需要使用其他程序先处理视频尺寸", slog.Any("原视频", in))
 		ResizeVideo(in, threads)
@@ -82,6 +82,8 @@ func ProcessVideo2H265(in GetFileInfo.BasicInfo, threads string) {
 			addTag(in)
 			slog.Debug("添加标签", slog.String("文件名", in.FullPath))
 		}
+	} else if mi.VideoFormat == "vp09" {
+		slog.Debug(fmt.Sprintf("跳过vp9文件"), slog.String("文件名", in.FullPath))
 	}
 	slog.Info("生成的命令", slog.String("command", fmt.Sprint(cmd)))
 	slog.Info("视频信息", slog.Int("视频帧数", mi.VideoFrameCount), slog.String("比特率", mi.VideoBitRate))
